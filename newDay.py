@@ -92,9 +92,10 @@ class MakeTheNotes:
 
     def GetNotesInitialText(self, today):
         todayUsString = self.utils.DateToUsString(today)
-        returnString = f'# {todayUsString} ({today.strftime("%A")})\n\n'
+        returnString = f'# {todayUsString} ({today.strftime("%A")})\n'
 
-        returnString += '''## TODO
+        returnString += '''
+## TODO
 - [ ] Sprint Work
 
 ## Time Tracking
@@ -102,6 +103,10 @@ class MakeTheNotes:
 | --- | --- | --- |
 | 
 
+## Support
+### Active PRs:
+| Worked today | PR Link | IS Link | Watch Tomorrow |
+| :---: | :--- | :--- | :---: |
 
 ## Notes
 
