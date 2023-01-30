@@ -60,6 +60,12 @@ class Files:
 
     def OpenInCode(self, path):
         os.system(f'code {path}')
+    
+    def GetTemplateFromFile(self, filename):
+        with open(filename) as file:
+            text = file.readlines()
+            return ''.join(text)
+
 
 class MakeTheNotes:
     def __init__(self):
@@ -88,31 +94,21 @@ class MakeTheNotes:
         self.files.OpenInCode(sprintNotesPath)
     
     def GetSprintInitialText(self, sprint):
-        return f'# Sprint {sprint} (Overview)\n\n'
+        templateFilename = '__sprint__.md'
+        templateText = self.files.GetTemplateFromFile(templateFilename)
+        sprintStr = templateText.replace('<sprint>', str(sprint))
+
+        return sprintStr
 
     def GetNotesInitialText(self, today):
+        templateFilename = '__day__.md'
+        templateText = self.files.GetTemplateFromFile(templateFilename)
         todayUsString = self.utils.DateToUsString(today)
-        returnString = f'# {todayUsString} ({today.strftime("%A")})\n'
 
-        returnString += '''
-## TODO
-- [ ] Sprint Work
+        dayStr = templateText.replace('<day>', todayUsString)
+        datedStr = dayStr.replace('<date>', today.strftime("%A"))
 
-## Time Tracking
-| Time | Bucket | Notes |
-| --- | --- | --- |
-| 
-
-## Support
-### Active PRs:
-| Worked today | PR Link | IS Link | Watch Tomorrow |
-| :---: | :--- | :--- | :---: |
-
-## Notes
-
-
-'''
-
+        returnString = datedStr
         return returnString
 
 def DoTheThing():
