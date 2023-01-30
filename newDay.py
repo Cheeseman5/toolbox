@@ -8,10 +8,9 @@ class Utils:
     def __init__(self, sprintStart):
         self.firstSprint = sprintStart
 
-    def GetCurrentSprint(self, today):
+    def GetCurrentSprint(self, today, sprintLength):
         diff = (today - self.firstSprint).days
-        sprint_len = 14
-        return floor((diff) / sprint_len)
+        return floor((diff) / sprintLength)
 
     def GetTodaysDate(self):
         return date.today()
@@ -66,14 +65,13 @@ class Files:
             text = file.readlines()
             return ''.join(text)
 
-
 class MakeTheNotes:
-    def __init__(self):
+    def __init__(self, firstSprintStartDate, sprintLength):
         self.files = Files()
-        self.utils = Utils(datetime.date(2011, 8, 3))
+        self.utils = Utils(firstSprintStartDate)
         self.today = self.utils.GetTodaysDate()
         self.todayString = self.utils.DateToString(self.today)
-        self.sprint = self.utils.GetCurrentSprint(self.today)
+        self.sprint = self.utils.GetCurrentSprint(self.today, sprintLength)
 
     def MakeTheThings(self):
         notesPath = self.files.GetTodaysNotesPath(self.sprint, self.todayString)
@@ -111,13 +109,14 @@ class MakeTheNotes:
         returnString = datedStr
         return returnString
 
-def DoTheThing():
-    notes = MakeTheNotes()
+def DoTheThing(firstDay, sprintLength):
+    notes = MakeTheNotes(firstDay, sprintLength)
     
     notes.MakeTheThings()
     notes.OpenTheThings()
 
-
 if __name__ == "__main__":
+    firstDay = datetime.date(2011, 8, 3)
+    sprintLength = 14
     # Do the thing!
-    DoTheThing();
+    DoTheThing(firstDay, sprintLength);
